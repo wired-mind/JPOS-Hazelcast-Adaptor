@@ -23,8 +23,6 @@ package org.jpos.space;
 
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
-import java.util.Set;
-import java.util.LinkedList;
 import java.util.*;
 import java.io.Serializable;
 
@@ -109,12 +107,12 @@ public class HzlSpace<K, V> implements LocalSpace<K, V>, Loggeable, HazelcastIns
 
         try {
             if (this.cfg != null && this.hzlConfig != null) {
-                this.instance = Hazelcast.init(this.hzlConfig);
+                this.instance = Hazelcast.newHazelcastInstance(this.hzlConfig);
             } else {
-                this.instance = Hazelcast.getDefaultInstance();
+                this.instance = Hazelcast.newHazelcastInstance();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new SpaceError(e);
         }
         this.entries = this.instance.getMap(spaceName);
         this.expirables = this.instance.getList(spaceName + "-expirables");
@@ -517,6 +515,10 @@ public class HzlSpace<K, V> implements LocalSpace<K, V>, Loggeable, HazelcastIns
 
         return obj;
     }
+    
+	public void shutdownInstance() {
+		Hazelcast.shutdownAll();
+	}
 
     protected class ExpirationService implements Serializable, Runnable {
 
