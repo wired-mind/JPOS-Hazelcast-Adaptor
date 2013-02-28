@@ -1,0 +1,20 @@
+description = 'jPOS-EE :: Hazelcast Space module'
+
+apply plugin: 'maven'
+apply plugin: 'eclipse'
+
+dependencies {
+    compile('org.jpos.ee:jposee-core:2.0.1-SNAPSHOT'){
+		changing=true
+	}
+    compile 'com.hazelcast:hazelcast:2.5'
+    compile 'com.hazelcast:hazelcast-client:2.5'
+    compile 'commons-collections:commons-collections:3.2.1'
+}
+
+repositories {
+	mavenCentral()
+	mavenLocal()
+}
+
+

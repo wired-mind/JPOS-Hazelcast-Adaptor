@@ -1,0 +1,10 @@
+<hzlspace class="org.jpos.space.HzlSpaceAdaptor" logger="Q2">
+ <property name="space-name"  value="hzl:DefaultSpace" />
+ <property name="hzlConfigFile"  value="../jpos-ee/build/cfg/hazelcast-default.xml" />
+ <property name="liteMember"  value="True" />
+ <property name="clusterName"  value="dev" />
+ <property name="clusterPassword"  value="dev-pass" />
+ <property name="useShuffle"  value="False" />
+ <property name="clusterAddresses"  value="191.168.101.9" />
+</hzlspace>
+

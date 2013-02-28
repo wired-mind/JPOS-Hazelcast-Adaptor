@@ -1,0 +1,25 @@
+<script>
+import org.jpos.iso.*;
+import org.jpos.space.*;
+import org.jpos.util.NameRegistrar;
+
+Space space = SpaceFactory.getSpace("hzl:DefaultSpace");
+ISOMsg testMessage = new ISOMsg();
+testMessage.setMTI("0800");
+testMessage.set (39, "00");
+space.out("TEST", 0);
+space.out("TEST", 1);
+space.out("TEST", 2);
+space.out("TEST", 3);
+space.out("TEST", 4);
+space.out("TEST", 5);
+space.out("TEST", 6);
+space.out("TEST", 7);
+space.out("TEST", 8);
+space.out("TEST", 9);
+
+space.out("TEST_QUEUE", testMessage);
+ISOMsg msg = (ISOMsg)space.rd("TEST_QUEUE");
+print("Field 39 is: " + msg.getString(39))
+
+</script>
