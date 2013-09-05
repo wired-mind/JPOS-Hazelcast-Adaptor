@@ -14,8 +14,9 @@ import org.jpos.q2.QBeanSupport;
 import org.jpos.util.NameRegistrar;
 
 public class HzlSpaceAdaptor extends QBeanSupport {
-    String spaceUri;
+	String [] spaceNames;
     HzlSpace sp;
+	String hzlConfigFile;
 
     public HzlSpaceAdaptor() {
         super();
@@ -23,9 +24,12 @@ public class HzlSpaceAdaptor extends QBeanSupport {
 
     public void initService() throws ConfigurationException {
         Element e = getPersist();
-        spaceUri = cfg.get("space-name", "hzl:DefaultSpace");
-        sp = new HzlSpace(cfg);
-       NameRegistrar.register(spaceUri, sp);
+		hzlConfigFile = cfg.get("hzlConfigFile", "");
+		spaceNames = cfg.getAll("space-name");
+		for (String name : spaceNames) {
+			sp = new HzlSpace(name, hzlConfigFile);
+			NameRegistrar.register(name, sp);
+		}
     }
 
     public void startService() {
@@ -39,7 +43,10 @@ public class HzlSpaceAdaptor extends QBeanSupport {
 
     protected void stopService() throws Exception {
     	sp.shutdownInstance();
-        NameRegistrar.unregister (spaceUri);
+        for (String name : spaceNames) {
+			sp = new HzlSpace(name, hzlConfigFile);
+			NameRegistrar.unregister(name);
+		}
     	super.stopService();
     }
 }
